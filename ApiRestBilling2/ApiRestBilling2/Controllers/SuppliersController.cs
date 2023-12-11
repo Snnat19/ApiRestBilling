@@ -63,8 +63,34 @@ namespace ApiRestBilling2.Controllers
 
         // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Supplier supplier)
         {
+            if (id!= supplier.Id) 
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplier).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) 
+            { 
+                if (!SupplierExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            return NoContent();
+        }
+
+        private bool SupplierExists(int id)
+        {
+            throw new NotImplementedException();
         }
 
         // DELETE api/<SuppliersController>/5
