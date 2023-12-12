@@ -6,15 +6,19 @@ using Microsoft.EntityFrameworkCore;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 namespace ApiRestBilling2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] //Framework de ruteo. Ambito Global
     [ApiController]
     public class SuppliersController : ControllerBase
     {
+
         private readonly ApplicationDbContext _context;
+
         public SuppliersController(ApplicationDbContext context)
         {
+
             this._context = context;
         }
+
 
         // GET: api/<SuppliersController>
         [HttpGet]
@@ -24,48 +28,52 @@ namespace ApiRestBilling2.Controllers
             {
                 return NotFound();
             }
+
             return await _context.Suppliers.ToListAsync();
+
         }
 
-        
         // GET api/<SuppliersController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] // Variables de ruta  https://localhost:7030/api/suppliers/5 
         public async Task<ActionResult<Supplier>> Get(int id)
-
         {
-            if (_context.Suppliers == null)
+
+            if (_context.Suppliers == null
+)
             {
                 return NotFound();
             }
+
             var supplier = await _context.Suppliers.FindAsync(id);
 
-            if (supplier is null) 
+            if (supplier is null)
             {
                 return NotFound();
             }
+
 
             return supplier;
         }
-
 
         // POST api/<SuppliersController>
         [HttpPost]
         public async Task<ActionResult<Supplier>> Post([FromBody] Supplier supplier)
         {
-            if (_context.Suppliers == null) {
-
-                return Problem("Entity set 'ApplicationDbContext.Suppliers' is null.");
+            if (_context.Suppliers == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Suppliers'  is null.");
             }
             _context.Suppliers.Add(supplier);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("Get", new {id = supplier.Id}, supplier);
+            return CreatedAtAction("Get", new { id = supplier.Id }, supplier);
         }
 
         // PUT api/<SuppliersController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Supplier supplier)
         {
-            if (id!= supplier.Id) 
+
+            if (id != supplier.Id)
             {
                 return BadRequest();
             }
@@ -74,8 +82,9 @@ namespace ApiRestBilling2.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) 
-            { 
+            catch (DbUpdateConcurrencyException)
+            {
+
                 if (!SupplierExists(id))
                 {
                     return NotFound();
@@ -90,8 +99,9 @@ namespace ApiRestBilling2.Controllers
 
         private bool SupplierExists(int id)
         {
-            throw new NotImplementedException();
+            return (_context.Suppliers?.Any(s => s.Id == id)).GetValueOrDefault();
         }
+
 
         // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
@@ -101,8 +111,9 @@ namespace ApiRestBilling2.Controllers
             {
                 return NotFound();
             }
+
             var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
-            if (supplier == null) 
+            if (supplier == null)
             {
                 return NotFound();
             }
@@ -110,6 +121,7 @@ namespace ApiRestBilling2.Controllers
             _context.Suppliers.Remove(supplier);
             await _context.SaveChangesAsync();
             return NoContent();
+
         }
     }
 }
