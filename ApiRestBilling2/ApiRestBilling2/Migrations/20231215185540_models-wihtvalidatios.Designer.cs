@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiRestBilling2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231206223218_initial-model-whitoutvalidatios")]
-    partial class initialmodelwhitoutvalidatios
+    [Migration("20231215185540_models-wihtvalidatios")]
+    partial class modelswihtvalidatios
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,7 +78,6 @@ namespace ApiRestBilling2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("OrderNumber")
-                        .HasMaxLength(128)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalAmount")

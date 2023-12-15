@@ -75,7 +75,6 @@ namespace ApiRestBilling2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("OrderNumber")
-                        .HasMaxLength(128)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalAmount")
