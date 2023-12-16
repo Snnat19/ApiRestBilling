@@ -41,6 +41,12 @@ if (app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
+//Damos Soporte Cors
+app.UseCors(c => c
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
